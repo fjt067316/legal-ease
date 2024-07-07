@@ -48,12 +48,18 @@ def save_embeddings_to_json(embeddings, text_chunks, file_path):
     
     with open(file_path, 'w') as f:
         json.dump(embedding_dict, f, indent=4)
+        
 '''
-CLI
+Main
 '''
+import os
 
 if __name__ == "__main__":
-    file_path = 'rta/rta.doc'
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    relative_path = '/rta/rta.docx'
+    print(script_dir)
+    file_path = script_dir + relative_path
+    
     output_json_path = 'embeddings.json'
     text = read_docx(file_path)
     max_chunk_length = 512  # Adjust based on the embedding model's max input length
