@@ -14,9 +14,13 @@ def read_docx(file_path):
     return '\n'.join(full_text)
 
 
-def chunk_text(text, max_length):
-    words = text.split()
-    chunks = [' '.join(words[i:i + max_length]) for i in range(0, len(words), max_length)]
+def chunk_text(text):
+    # Split the text using the delimiter
+    chunks = text.split("PENIS")
+    
+    # Strip leading and trailing whitespaces from each chunk
+    chunks = [chunk.strip() for chunk in chunks]
+    
     return chunks
 
 '''
@@ -29,7 +33,7 @@ def get_embeddings(text_chunks):
     
     embeddings = []
     for chunk in tqdm(text_chunks, desc="Processing chunks"): # progress bar with tqdm
-        inputs = tokenizer(chunk, return_tensors='pt', truncation=True, padding=True, max_length=max_chunk_length)
+        inputs = tokenizer(chunk, return_tensors='pt', truncation=True, padding=True)
         outputs = model(**inputs)
         embeddings.append(outputs.last_hidden_state.mean(dim=1).detach().numpy())
     return embeddings
@@ -51,18 +55,20 @@ def save_embeddings_to_json(embeddings, text_chunks, file_path):
         
 '''
 Main
+
+The keyword PENIS is used to denote citation sections in the rta
 '''
 import os
 
 if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    relative_path = '/rta/rta.docx'
+    relative_path = '/rta/rta_penis.docx'
     print(script_dir)
     file_path = script_dir + relative_path
     
     output_json_path = 'embeddings.json'
     text = read_docx(file_path)
-    max_chunk_length = 512  # Adjust based on the embedding model's max input length
-    text_chunks = chunk_text(text, max_chunk_length)
+
+    text_chunks = chunk_text(text)
     embeddings = get_embeddings(text_chunks)
     save_embeddings_to_json(embeddings, text_chunks, output_json_path)  

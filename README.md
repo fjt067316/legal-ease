@@ -1,9 +1,11 @@
-requirments
+requirments:
+    - python poetry
 
-python poetry
+1. poetry install
 
-poetry run python your_script.py
+2. poetry shell
 
-or
 
-poetry shell
+
+## Generate Embeddings
+1. python3 citation_embed/embed.py
