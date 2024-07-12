@@ -22,13 +22,25 @@ app.get("/api/generate-api-key", (req, res) => {
 app.post("/api/userQuery", (req, res) => {
   const query = req.body.query;
   // replace with actual query processing logic
-  res.json({ answer: `Response to the query: ${query}` });
+  res.json({ response: `Response to the query: ${query}` });
 });
 
 app.post("/api/validateLease", upload.single("file"), (req, res) => {
   const leaseText = req.file ? req.file.buffer.toString() : req.body.leaseText;
   // replace with actual lease validation logic
   res.json({ details: `Validated lease text: ${leaseText}` });
+});
+
+app.post("/api/log", (req, res) => {
+  const query = req.body.query;
+  // replace with actual query processing logic
+  res.json({ response: `thanks for logging : ${query}` });
+});
+
+app.post("/api/feedback", (req, res) => {
+  const query = req.body.query;
+  // replace with actual query processing logic
+  res.json({ response: `feedback response to : ${query}` });
 });
 
 app.listen(port, () => {

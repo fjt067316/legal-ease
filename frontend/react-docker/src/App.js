@@ -4,10 +4,12 @@ import DocumentUpload from "./components/DocumentUpload";
 import QueryInput from "./components/QueryInput";
 import ResultDisplay from "./components/ResultDisplay";
 import GenerateApiKey from "./components/GenerateApiKey";
+import LogQuery from "./components/LogQuery";
+import Feedback from "./components/Feedback";
+import Header from "./components/Header";
 
 function App() {
   const [apiResponse, setApiResponse] = useState("");
-  const [result, setResult] = useState("");
 
   const handleStatusCheck = () => {
     fetch("http://localhost:3001/api/status")
@@ -18,12 +20,15 @@ function App() {
 
   return (
     <div className="App">
+      <Header />
       <button onClick={handleStatusCheck}>Check Backend Status</button>
       <p>{apiResponse}</p>
       <GenerateApiKey />
       <DocumentUpload />
       <QueryInput />
-      <ResultDisplay result={result} />
+      <ResultDisplay />
+      <LogQuery />
+      <Feedback />
     </div>
   );
 }

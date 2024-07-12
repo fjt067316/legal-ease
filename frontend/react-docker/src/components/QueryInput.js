@@ -17,7 +17,7 @@ function QueryInput() {
       body: JSON.stringify({ query: query }),
     })
       .then((response) => response.json())
-      .then((data) => setQueryResponse(data.answer))
+      .then((data) => setQueryResponse(data.response))
       .catch((error) => console.error("Error:", error));
   };
 
