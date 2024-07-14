@@ -14,12 +14,12 @@ def query_answer(query, db_client):
 Re-Ranker takes user query and citations and generates a relevance score for them
 higher score is better
 '''
-from transformers import AutoTokenizer, AutoModel
 from FlagEmbedding import FlagReranker
 
 def get_ranks(query, citations):
     model_name = 'BAAI/bge-reranker-large'
-    
+    if not citations:
+        raise ValueError("Citations list is empty. Provide at least one citation.")
     # Initialize FlagReranker
     reranker = FlagReranker(model_name, use_fp16=True)
     ranks = [ [query, citation] for citation in citations ]
@@ -67,11 +67,11 @@ def retrieve_citations(query, db_client):
         where_document={"$contains":"search_string"}
     )
     '''
-    v1 = collection.get(["127"], include=['embeddings', 'documents', 'metadatas'])
+    # v1 = collection.get(["127"], include=['embeddings', 'documents', 'metadatas'])
     # print(v1)
     results = collection.query(
         query_embeddings=query_vector,
-        n_results=30,  # Number of results temporarily'
+        n_results=10,  # Number of results temporarily'
         # where_document={'$contains': "pet"}
     )
     # print(results)

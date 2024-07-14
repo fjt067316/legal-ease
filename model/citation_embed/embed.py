@@ -10,7 +10,7 @@ Utility functions for reading and chunking doc
 '''
 import docx
 import unicodedata
-import re
+import torch
 
 def clean_text(text):
     # pattern = r'\d{4}, c\. \d+, .*?\. \d+, s\. \d+'
@@ -53,30 +53,33 @@ Generate embeddings for text chunks
 from sentence_transformers import SentenceTransformer
 
 def get_embeddings(text_chunks):
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    model_name = "infgrad/stella_en_400M_v5" # "jinaai/jina-embeddings-v2-base-en"
-    local_directory = script_dir + "/saved_models/stella_en_400M_v5" # "/saved_models/jina-v2"
-    
+    model_name = "BAAI/bge-m3"
+    local_directory = script_dir + "/saved_models/bge-m3"
+
     # Check if the model is saved locally
     if not os.path.exists(local_directory):
         os.makedirs(local_directory)
         # Download and save the model
-        model = SentenceTransformer(model_name, trust_remote_code=True, device="cpu")
+        model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
         model.save(local_directory)
     else:
-        # Load the model from local directory
-        model = SentenceTransformer(local_directory)
+        # Load the model from local directory 
+        model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
     
     # Set maximum sequence length
-    model.max_seq_length = 1024
-    
+    model.max_seq_length = 8192
+    model.to(device)
     # Generate embeddings
     embeddings = []
     
     # Process text chunks with tqdm for progress bar
     for chunk in tqdm(text_chunks, desc="Embedding chunks"): # progress bar with tqdm
         # Generate embeddings for each chunk
-        embeddings.append(model.encode(chunk).tolist())
+        with torch.no_grad():
+            embeddings.append(model.encode(chunk).tolist())
     
     return embeddings
 
@@ -107,8 +110,8 @@ import os
 
 if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    embedding_text = '/rta_penis_wording_mod.docx'#'/rta/rta_mod.docx'
-    citation_text = '/rta_mod_new.docx'#'/rta/rta_penis.docx'
+    embedding_text = '/rta_embed.docx'#'/rta/rta_mod.docx'
+    citation_text = '/rta_citation.docx'#'/rta/rta_penis.docx'
     print(script_dir)
     embed_path = script_dir + embedding_text
     original_path = script_dir + citation_text

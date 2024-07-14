@@ -2728,6 +2728,22 @@ files = [
 ]
 
 [[package]]
+name = "pysqlite3-binary"
+version = "0.5.3"
+description = "DB-API 2.0 interface for Sqlite 3.x"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pysqlite3_binary-0.5.3-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:ad8325f9b74e94fa542678fd30ac8b53dc25a5bd9e88b41151a62127f870ed7f"},
+    {file = "pysqlite3_binary-0.5.3-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:002fcba03fdd5ad190b9438a1c5c648ae8a4d6992d3d54daec2ab8138b1a4183"},
+    {file = "pysqlite3_binary-0.5.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:58992010c654b81b403b0175cfa32f499de5cb3a4e4e53c9eb9fb44d66370a84"},
+    {file = "pysqlite3_binary-0.5.3-cp36-cp36m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:b21717b4df66b3b3f759f31209b1c835edfa1ad7768f7b2847337382b6c6003f"},
+    {file = "pysqlite3_binary-0.5.3-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:763381e59ce70344d7e1a621b41069a1364e9a05c07103579af88e775952852b"},
+    {file = "pysqlite3_binary-0.5.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:68ac693470e361ff0a63a25c6be3354c784d6b0c2cdc7c2a9e8a956be6c8693a"},
+    {file = "pysqlite3_binary-0.5.3-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9b672326ec8eacd40cd9d31959f477fca6bbcc32d0e2b115ce1c00882a9afc7a"},
+]
+
+[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 description = "Extensions to the standard Python datetime module"
@@ -4045,6 +4061,20 @@ files = [
 ]
 
 [[package]]
+name = "wheel"
+version = "0.43.0"
+description = "A built-package format for Python"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "wheel-0.43.0-py3-none-any.whl", hash = "sha256:55c570405f142630c6b9f72fe09d9b67cf1477fcf543ae5b8dcb1f5b7377da81"},
+    {file = "wheel-0.43.0.tar.gz", hash = "sha256:465ef92c69fa5c5da2d1cf8ac40559a8c940886afcef87dcf14b9470862f1d85"},
+]
+
+[package.extras]
+test = ["pytest (>=6.0.0)", "setuptools (>=65)"]
+
+[[package]]
 name = "wrapt"
 version = "1.16.0"
 description = "Module for decorators, wrappers and monkey patching."
@@ -4122,6 +4152,30 @@ files = [
     {file = "wrapt-1.16.0-py3-none-any.whl", hash = "sha256:6906c4100a8fcbf2fa735f6059214bb13b97f75b1a61777fcf6432121ef12ef1"},
     {file = "wrapt-1.16.0.tar.gz", hash = "sha256:5f370f952971e7d17c7d1ead40e49f32345a7f7a5373571ef44d800d06b1899d"},
 ]
+
+[[package]]
+name = "xformers"
+version = "0.0.27"
+description = "XFormers: A collection of composable Transformer building blocks."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "xformers-0.0.27-cp310-cp310-manylinux2014_x86_64.whl", hash = "sha256:d0efa09336da8bbff5335ab29c46f7baff03eb1fabd2d6daad4df5fd0f3ba396"},
+    {file = "xformers-0.0.27-cp310-cp310-win_amd64.whl", hash = "sha256:bef8100b1c53cdb5f884414b7daea0cec83966d977a70cbb7947786e473a4a1b"},
+    {file = "xformers-0.0.27-cp311-cp311-manylinux2014_x86_64.whl", hash = "sha256:253a647e40d5381dca6f556893d64e642cf839dda8bac46c3bea07292ca3f8fc"},
+    {file = "xformers-0.0.27-cp311-cp311-win_amd64.whl", hash = "sha256:93a41717c6edbfda4ca55a583d6d0a3e0726262ffa7f7f26ab439d84a7c482b9"},
+    {file = "xformers-0.0.27-cp312-cp312-manylinux2014_x86_64.whl", hash = "sha256:dc55cc75bebd522ce77672f5e49205d02e4d6f6eff6b3ee6ebc1de42aec66b49"},
+    {file = "xformers-0.0.27-cp312-cp312-win_amd64.whl", hash = "sha256:eb2ca11ee4f189f96ac10698e81aeec7dfe157c4180bb6a88e37ad50b14c7d7d"},
+    {file = "xformers-0.0.27-cp38-cp38-manylinux2014_x86_64.whl", hash = "sha256:b92348c98a96b01fa1b385f07914394363cd3c008d93978049da0e2212520daa"},
+    {file = "xformers-0.0.27-cp38-cp38-win_amd64.whl", hash = "sha256:d79457fd3d3b655527596e8de16787928b38ef21007bcd9fdb193c348a9516a4"},
+    {file = "xformers-0.0.27-cp39-cp39-manylinux2014_x86_64.whl", hash = "sha256:f88ccc7613a72be9cf75e2f7c0cf6bb6ec244bdcce9fe8b3448af48a685c7ab5"},
+    {file = "xformers-0.0.27-cp39-cp39-win_amd64.whl", hash = "sha256:67ab5341c7dbfeb96450778a1cd358710c4e71566dd1115246c766d01f2d5417"},
+    {file = "xformers-0.0.27.tar.gz", hash = "sha256:7bf9db7330fbe7b9b633d720db6f2284f939ec1564e4916bae57aafdc265d43d"},
+]
+
+[package.dependencies]
+numpy = "*"
+torch = "2.3.1"
 
 [[package]]
 name = "xxhash"
@@ -4361,4 +4415,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "a49967567ff6e30c280a542ce954864e2370a5612b5188039c8dac363a6621a4"
+content-hash = "466738cfd73819ff74cf44c2357a447a01094ef5a2363b83e5fe1e3d31bf882c"

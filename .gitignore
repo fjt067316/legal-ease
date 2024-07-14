@@ -166,3 +166,4 @@ cython_debug/
 model/db_store/*
 
 model/citation_embed/saved_models/*
+model/citation_embed/saved_embeddings/*

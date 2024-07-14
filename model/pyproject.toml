@@ -14,6 +14,9 @@ tqdm = "^4.66.4"
 chromadb = "^0.5.4"
 sentence-transformers = "^3.0.1"
 flagembedding = "^1.2.10"
+pysqlite3-binary = "^0.5.3"
+xformers = "^0.0.27"
+wheel = "^0.43.0"
 
 
 [build-system]
