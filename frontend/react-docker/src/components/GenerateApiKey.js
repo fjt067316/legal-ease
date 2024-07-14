@@ -4,7 +4,7 @@ function GenerateApiKey() {
   const [apiKey, setApiKey] = useState("");
 
   const handleGenerateApiKey = () => {
-    fetch("http://localhost:3001/api/generate-api-key")
+    fetch("http://localhost:8000/api/generate-api-key")
       .then((response) => response.json())
       .then((data) => setApiKey(data.apiKey))
       .catch((error) => console.error("Error:", error));

@@ -12,7 +12,7 @@ function DocumentUpload() {
     const formData = new FormData();
     formData.append("file", file);
 
-    fetch("http://localhost:3001/api/validateLease", {
+    fetch("http://localhost:8000/api/validateLease", {
       method: "POST",
       body: formData,
     })

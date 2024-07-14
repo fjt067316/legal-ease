@@ -9,7 +9,7 @@ function QueryInput() {
   };
 
   const handleQuerySubmit = () => {
-    fetch("http://localhost:3001/api/userQuery", {
+    fetch("http://localhost:8000/api/userQuery", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

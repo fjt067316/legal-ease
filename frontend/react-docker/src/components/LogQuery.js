@@ -5,7 +5,7 @@ function LogQuery() {
   const [response, setResponse] = useState("");
 
   const handleLogQuery = () => {
-    fetch("http://localhost:3001/api/log", {
+    fetch("http://localhost:8000/api/log", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
