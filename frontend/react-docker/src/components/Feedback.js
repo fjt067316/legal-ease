@@ -5,7 +5,7 @@ function Feedback() {
   const [response, setResponse] = useState("");
 
   const handleFeedback = () => {
-    fetch("http://localhost:3001/api/feedback", {
+    fetch("http://localhost:8000/api/feedback", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

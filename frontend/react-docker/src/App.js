@@ -12,7 +12,7 @@ function App() {
   const [apiResponse, setApiResponse] = useState("");
 
   const handleStatusCheck = () => {
-    fetch("http://localhost:3001/api/status")
+    fetch("http://localhost:8000/api/status")
       .then((response) => response.json())
       .then((data) => setApiResponse(data.status))
       .catch((error) => console.error("Error:", error));

@@ -1,18 +1,12 @@
-# Use the official Node.js image as the base image
-FROM node:14
+FROM python:3.9
 
-# Create and change to the app directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY package*.json ./
-RUN npm install
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the app source code
 COPY . .
 
-# Expose the port the app runs on
-EXPOSE 3001
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
 
-# Start the application
-CMD ["node", "index.js"]
+EXPOSE 8000
