@@ -32,7 +32,7 @@ class ChromaLocal:
         for key, value in data.items():
             vector = json.loads(key)
             self.collection.add(
-                embeddings=[vector[0]],
+                embeddings=[vector],
                 metadatas=[{"citation": value}],
                 documents=[value],
                 ids=[str(i)]

@@ -1,7 +1,4 @@
 from tqdm import tqdm
-import docx
-from transformers import AutoTokenizer, AutoModel
-import torch
 
 '''
 The embeddings are generated from rta_penis which has the same placement of the PENIS keyword as the rta file
@@ -11,12 +8,34 @@ however it has changed wording to allow for better semantic encoding of the docu
 '''
 Utility functions for reading and chunking doc
 '''
+import docx
+import unicodedata
+import re
+
+def clean_text(text):
+    # pattern = r'\d{4}, c\. \d+, .*?\. \d+, s\. \d+'
+    # text = re.sub(pattern, '', text)
+    # Normalize the text to NFC form
+    text = unicodedata.normalize('NFC', text)
+    
+    # Replace non-printable characters with a space
+    cleaned_text = ''.join(c if c.isprintable() else ' ' for c in text)
+    
+    # Remove extra whitespace
+    cleaned_text = ' '.join(cleaned_text.split())
+    
+    return cleaned_text
+
 def read_docx(file_path):
     doc = docx.Document(file_path)
     full_text = []
     for para in doc.paragraphs:
         full_text.append(para.text)
-    return '\n'.join(full_text)
+    
+    text = '\n'.join(full_text)
+    cleaned_text = clean_text(text)
+    
+    return cleaned_text
 
 
 def chunk_text(text):
@@ -31,16 +50,34 @@ def chunk_text(text):
 '''
 Generate embeddings for text chunks
 '''
+from sentence_transformers import SentenceTransformer
+
 def get_embeddings(text_chunks):
-    model_name = 'bert-base-uncased'
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModel.from_pretrained(model_name)
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    model_name = "infgrad/stella_en_400M_v5" # "jinaai/jina-embeddings-v2-base-en"
+    local_directory = script_dir + "/saved_models/stella_en_400M_v5" # "/saved_models/jina-v2"
     
+    # Check if the model is saved locally
+    if not os.path.exists(local_directory):
+        os.makedirs(local_directory)
+        # Download and save the model
+        model = SentenceTransformer(model_name, trust_remote_code=True, device="cpu")
+        model.save(local_directory)
+    else:
+        # Load the model from local directory
+        model = SentenceTransformer(local_directory)
+    
+    # Set maximum sequence length
+    model.max_seq_length = 1024
+    
+    # Generate embeddings
     embeddings = []
-    for chunk in tqdm(text_chunks, desc="Processing chunks"): # progress bar with tqdm
-        inputs = tokenizer(chunk, return_tensors='pt', truncation=True, padding=True)
-        outputs = model(**inputs)
-        embeddings.append(outputs.last_hidden_state.mean(dim=1).detach().tolist())
+    
+    # Process text chunks with tqdm for progress bar
+    for chunk in tqdm(text_chunks, desc="Embedding chunks"): # progress bar with tqdm
+        # Generate embeddings for each chunk
+        embeddings.append(model.encode(chunk).tolist())
+    
     return embeddings
 
 '''
@@ -70,8 +107,8 @@ import os
 
 if __name__ == "__main__":
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    embedding_text = '/rta/rta_mod.docx'
-    citation_text = '/rta/rta_penis.docx'
+    embedding_text = '/rta_penis_wording_mod.docx'#'/rta/rta_mod.docx'
+    citation_text = '/rta_mod_new.docx'#'/rta/rta_penis.docx'
     print(script_dir)
     embed_path = script_dir + embedding_text
     original_path = script_dir + citation_text
@@ -82,6 +119,15 @@ if __name__ == "__main__":
 
     text_chunks_mod = chunk_text(text_mod)
     text_chunks_orig = chunk_text(text_orig)
+    
+    # output_file = "chunked_text_output.txt"
 
+    # with open(output_file, 'w', encoding='utf-8') as file:
+    #     for chunk_mod, chunk_orig in zip(text_chunks_mod, text_chunks_orig):
+    #         file.write(chunk_mod[:200] + '\n')
+    #         file.write(chunk_orig[:200] + '\n\n')
+    
+    # print(f"{len(text_chunks_mod)} == {len(text_chunks_orig)}")
+    
     embeddings = get_embeddings(text_chunks_mod)
     save_embeddings_to_json(embeddings, text_chunks_orig, output_json_path)  
