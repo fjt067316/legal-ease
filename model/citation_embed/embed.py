@@ -38,9 +38,9 @@ def read_docx(file_path):
     return cleaned_text
 
 
-def chunk_text(text):
+def chunk_text(text, keyword):
     # Split the text using the delimiter
-    chunks = text.split("PENIS")
+    chunks = text.split(keyword)
     
     # Strip leading and trailing whitespaces from each chunk
     chunks = [chunk.strip() for chunk in chunks]
@@ -56,8 +56,8 @@ def get_embeddings(text_chunks):
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    model_name = "BAAI/bge-m3"
-    local_directory = script_dir + "/saved_models/bge-m3"
+    model_name = "jinaai/jina-embeddings-v2-base-en"
+    local_directory = script_dir + "/saved_models/jina-embeddings-v2-base-en"
 
     # Check if the model is saved locally
     if not os.path.exists(local_directory):
@@ -70,16 +70,23 @@ def get_embeddings(text_chunks):
         model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
     
     # Set maximum sequence length
-    model.max_seq_length = 8192
+    # model.max_seq_length = 2048
     model.to(device)
     # Generate embeddings
     embeddings = []
-    
     # Process text chunks with tqdm for progress bar
-    for chunk in tqdm(text_chunks, desc="Embedding chunks"): # progress bar with tqdm
-        # Generate embeddings for each chunk
-        with torch.no_grad():
-            embeddings.append(model.encode(chunk).tolist())
+    for chunk in tqdm(text_chunks, desc="Embedding chunks"):  # progress bar with tqdm
+    # Generate embeddings for each chunk
+        try:
+            with torch.no_grad():
+                embedding = model.encode(chunk).tolist()
+                embeddings.append(embedding)
+        except IndexError as e:
+            print(f"IndexError for chunk: {chunk}\nError: {e}")
+            continue
+        except Exception as e:
+            print(f"Unexpected error for chunk: {chunk}\nError: {e}")
+            continue
     
     return embeddings
 
@@ -109,6 +116,8 @@ generating embeddings
 import os
 
 if __name__ == "__main__":
+    collection_names = ["Exemptions_And_Introduction", "Tenancy_Agreement", "Responsibilities_Of_A_Landlord"]
+
     script_dir = os.path.dirname(os.path.abspath(__file__))
     embedding_text = '/rta_embed.docx'#'/rta/rta_mod.docx'
     citation_text = '/rta_citation.docx'#'/rta/rta_penis.docx'
@@ -116,21 +125,28 @@ if __name__ == "__main__":
     embed_path = script_dir + embedding_text
     original_path = script_dir + citation_text
     
-    output_json_path = '../embeddings.json'
     text_mod = read_docx(embed_path)
     text_orig = read_docx(original_path)
 
-    text_chunks_mod = chunk_text(text_mod)
-    text_chunks_orig = chunk_text(text_orig)
+    collections_mod = chunk_text(text_mod, "ALABAMA_TURKEY")
+    collections_orig = chunk_text(text_orig, "ALABAMA_TURKEY")
     
-    # output_file = "chunked_text_output.txt"
+    for i, name in enumerate(collection_names):
+        output_json_path = f'../embeddings/{name}_embeddings.json'
+        
+        collection_mod = collections_mod[i]
+        collection_orig = collections_orig[i]
+        text_chunks_mod = chunk_text(collection_mod, "PENIS")
+        text_chunks_orig = chunk_text(collection_orig, "PENIS")
+    
+        output_file = "chunked_text_output.txt"
 
-    # with open(output_file, 'w', encoding='utf-8') as file:
-    #     for chunk_mod, chunk_orig in zip(text_chunks_mod, text_chunks_orig):
-    #         file.write(chunk_mod[:200] + '\n')
-    #         file.write(chunk_orig[:200] + '\n\n')
+        with open(output_file, 'w+', encoding='utf-8') as file:
+            for chunk_mod, chunk_orig in zip(text_chunks_mod, text_chunks_orig):
+                file.write(chunk_mod[:200] + '\n')
+                file.write(chunk_orig[:200] + '\n\n')
+
+        print(f"{len(text_chunks_mod)} == {len(text_chunks_orig)}")
     
-    # print(f"{len(text_chunks_mod)} == {len(text_chunks_orig)}")
-    
-    embeddings = get_embeddings(text_chunks_mod)
-    save_embeddings_to_json(embeddings, text_chunks_orig, output_json_path)  
+        embeddings = get_embeddings(text_chunks_mod)
+        save_embeddings_to_json(embeddings, text_chunks_orig, output_json_path)  

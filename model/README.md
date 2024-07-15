@@ -15,6 +15,18 @@ requirments:
 ## Start ChromaDB Server
 1. poetry run python3.11 start_chroma.py
 
+# chroma issues
+1. poetry add pysqlite3
+or
+1. poetry add pysqlite3-binary
+
+2. uncomment these lines 
+```
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+```
+
 ## Add new libs
 
 poetry shell
@@ -26,5 +38,11 @@ requires git lfs
 2. git clone https://huggingface.co/dunzhang/stella_en_1.5B_v5
 3. git lfs pull
 
+# when running stell_rn_400m
+1. poetry add xformers
+
 # when running stella_en_1.5B_v5
 poetry run pip install flash-attn --no-build-isolation
+
+## Example Running Test
+1. poetry run python3.11 test_retrieval.py
