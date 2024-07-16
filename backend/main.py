@@ -1,7 +1,9 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-# from query_processor import process_query, generate_api_key, validate_lease
+import os
+import chromadb
+import query_answer  # Ensure this is correctly imported import must be after the magic stuff before
 
 app = FastAPI()
 
@@ -16,6 +18,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+def process_user_query(query_text: str):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    chroma_client = chromadb.PersistentClient(path=os.path.join(script_dir, "../../../db_store/"))  # local persistent db
+    citations, distances = query_answer.retrieve_citations(query_text, chroma_client)
+    scores = query_answer.get_ranks(query_text, citations)
+    response_data = [
+        {"score": score, "distance": distance, "citation": citation}
+        for score, citation, distance in zip(scores, citations, distances)
+    ]
+    return response_data
+
 @app.get("/api/status")
 async def status():
     return {"status": "Backend is running!"}
@@ -28,7 +41,7 @@ async def generate_api_key_endpoint():
 @app.post("/api/userQuery")
 async def user_query(query: Query):
     try:
-        response = query.query
+        response = process_user_query(query.query)
         return {"response": f"Response to the query: {response}"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
