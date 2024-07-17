@@ -12,7 +12,8 @@ exemp_and_intro_route = Route(
         "What is vital service?",
         "Are students exempt from the RTA?",
         "What are the requirements of a landlord tenant lease agreement",
-        "land lease home or social housing exemption"
+        "land lease home or social housing exemption",
+        "what is a utility?"
     ],
 )
 tenancy_agreement_route = Route(
@@ -42,41 +43,72 @@ landlord_resp_route = Route(
     ],
 )
 
-chitchat = Route(
+tenant_responsibilities = Route(
     name="Responsibilities Of A Tenant",
     utterances=[
-        "",
+        "Is a tenant responsible for cleaning?",
+        "What repairs does a tenant need to do?",
+        "Can I change the room locks as a tenant?",
+        "Can a landlord not allow an AC unit?",
+        "Can I have an AC?",
+        "Does AC installation affect my rent?",
+        "Does a tenant need to tell a landlord about AC installation?"
     ],
 )
 
-chitchat = Route(
+tenure_security = Route(
     name="Security Of Tenure And Termination Of Tenancy",
     utterances=[
         "",
     ],
 )
 
-chitchat = Route(
-    name="Non Profit Housing CO-OP - Termination Of Occupancy",
+# part V.1
+coop_housing = Route(
+    name="Eviction - Coop Housing",
     utterances=[
         "",
     ],
 )
 
-chitchat = Route(
+assignment_and_subletting = Route(
     name="Assignment, Subletting And Unauthorized Occupancy",
     utterances=[
-        "",
+        "Can another person live in my unit?",
+        "Can my landlord deny my sublet?",
+        "Am I responsible for my sublet?",
+        "Can I assign my unit to someone else?",
+        "Landlord denied sublet what can I do",
+        "Eviction with termination order",
+        "Unauthorized occupancy"
     ],
 )
 
-chitchat = Route(
+rent_rules = Route(
     name="Rent Rules",
     utterances=[
         "",
     ],
 )
 
+# part 8
+rent_rules = Route(
+    name="Utility Cost",
+    utterances=[
+        "In what cases can a landlord shut off electicity, water, or heat?",
+        "Can I get a rent decrease if I have no electricity, water, or heat utilites?",
+        "Is there a deposit for utilities?",
+        "Can a landlord charge for part of the utilities?",        
+    ],
+)
+
+# part 9
+care_homes = Route(
+    name="Care Homes",
+    utterances=[
+        "",
+    ],
+)
 routes = [exemp_and_intro_route, tenancy_agreement_route, landlord_resp_route]
 
 path = "../../citation_embed/saved_models/"

@@ -52,26 +52,27 @@ Generate embeddings for text chunks
 '''
 from sentence_transformers import SentenceTransformer
 
-def get_embeddings(text_chunks):
-    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+def get_embeddings(text_chunks, model=None):
+    if not model:
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    model_name = "jinaai/jina-embeddings-v2-base-en"
-    local_directory = script_dir + "/saved_models/jina-embeddings-v2-base-en"
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        model_name = "jinaai/jina-embeddings-v2-base-en"
+        local_directory = script_dir + "/saved_models/jina-embeddings-v2-base-en"
 
-    # Check if the model is saved locally
-    if not os.path.exists(local_directory):
-        os.makedirs(local_directory)
-        # Download and save the model
-        model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
-        model.save(local_directory)
-    else:
-        # Load the model from local directory 
-        model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
-    
-    # Set maximum sequence length
-    # model.max_seq_length = 2048
-    model.to(device)
+        # Check if the model is saved locally
+        if not os.path.exists(local_directory):
+            os.makedirs(local_directory)
+            # Download and save the model
+            model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
+            model.save(local_directory)
+        else:
+            # Load the model from local directory 
+            model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
+
+        # Set maximum sequence length
+        # model.max_seq_length = 2048
+        model.to(device)
     # Generate embeddings
     embeddings = []
     # Process text chunks with tqdm for progress bar
@@ -131,6 +132,23 @@ if __name__ == "__main__":
     collections_mod = chunk_text(text_mod, "ALABAMA_TURKEY")
     collections_orig = chunk_text(text_orig, "ALABAMA_TURKEY")
     
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    model_name = "jinaai/jina-embeddings-v2-base-en"
+    local_directory = script_dir + "/saved_models/jina-embeddings-v2-base-en"
+
+    # Check if the model is saved locally
+    if not os.path.exists(local_directory):
+        os.makedirs(local_directory)
+        # Download and save the model
+        model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
+        model.save(local_directory)
+    else:
+        # Load the model from local directory 
+        model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
+    
+    model.to(device)
+    
     for i, name in enumerate(collection_names):
         output_json_path = f'../embeddings/{name}_embeddings.json'
         
@@ -139,14 +157,14 @@ if __name__ == "__main__":
         text_chunks_mod = chunk_text(collection_mod, "PENIS")
         text_chunks_orig = chunk_text(collection_orig, "PENIS")
     
-        output_file = "chunked_text_output.txt"
+        # output_file = "chunked_text_output.txt"
 
-        with open(output_file, 'w+', encoding='utf-8') as file:
-            for chunk_mod, chunk_orig in zip(text_chunks_mod, text_chunks_orig):
-                file.write(chunk_mod[:200] + '\n')
-                file.write(chunk_orig[:200] + '\n\n')
+        # with open(output_file, 'w+', encoding='utf-8') as file:
+        #     for chunk_mod, chunk_orig in zip(text_chunks_mod, text_chunks_orig):
+        #         file.write(chunk_mod[:200] + '\n')
+        #         file.write(chunk_orig[:200] + '\n\n')
 
         print(f"{len(text_chunks_mod)} == {len(text_chunks_orig)}")
     
-        embeddings = get_embeddings(text_chunks_mod)
+        embeddings = get_embeddings(text_chunks_mod, model=model)
         save_embeddings_to_json(embeddings, text_chunks_orig, output_json_path)  
