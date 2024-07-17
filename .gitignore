@@ -165,5 +165,8 @@ cython_debug/
 *.bin
 model/db_store/*
 
+chunked_text_output.txt
 model/citation_embed/saved_models/*
 model/citation_embed/saved_embeddings/*
+db_store/*
+saved_models/*
