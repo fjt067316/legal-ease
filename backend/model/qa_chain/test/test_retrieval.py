@@ -9,9 +9,6 @@ import query_answer
 
 import chromadb # this import must be after the magic stuff before
 
-q = ["when can a landlord evict me?"]
-a = ["A landlord may give a tenant notice of termination of their tenancy on any of the following grounds:", "A landlord may give a tenant notice of termination of the tenancy if the tenant, another occupant of the rental unit or a person whom the tenant permits in the residential complex"]
-
 queries = [
     # "what is a landlord allowed to put in a lease agreement?\n",
     # "what are the contents of a lease agreement\n",

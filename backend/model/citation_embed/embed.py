@@ -115,9 +115,13 @@ Use rta_penis for the actual unmodified citations and rta_mod for the modified w
 generating embeddings
 '''
 import os
+import sys
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
+
+from qa_chain.semantic_router.route import routes
 
 if __name__ == "__main__":
-    collection_names = ["Exemptions_And_Introduction", "Tenancy_Agreement", "Responsibilities_Of_A_Landlord"]
+    collection_names = [route.name for route in routes]
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     embedding_text = '/rta_embed.docx'#'/rta/rta_mod.docx'

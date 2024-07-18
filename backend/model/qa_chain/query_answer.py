@@ -33,7 +33,7 @@ def get_ranks(query, citations):
 Filter citations based on ranking of another model
 If citations is below threshold then discard
 '''
-def filter_citations(query, citations, distances, score_threshold=-2.6, distance_threshold=0.4):
+def filter_citations(query, citations, distances, score_threshold=-2.5, distance_threshold=0.4):
        # Filter based on the distance threshold
     filtered_citations_distances = [(citation, distance) for citation, distance in zip(citations, distances) if distance <= distance_threshold]
     
@@ -68,7 +68,7 @@ from qa_chain.semantic_router.route import identify_collections
 
 def retrieve_citations(query, db_client):
     names, scores = identify_collections(query)
-    
+
     try:
         collections = []
         for name in names:
@@ -98,8 +98,9 @@ def retrieve_citations(query, db_client):
             n_results=10,  # Number of results temporarily'
             # where_document={'$contains': "pet"}
         )
+
         citations, distances, scores = filter_citations(query, results['documents'][0], results['distances'][0])
-        
+
         # extend all_citations and all_distances with the current iteration's citations and distances
         all_citations.extend(citations)
         all_distances.extend(distances)

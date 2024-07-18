@@ -7,6 +7,8 @@ import os
 # sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 import chromadb # this import must be after the magic stuff before
+from model.qa_chain.semantic_router.route import routes
+import shutil
 
 '''
 This file is responsible for deploying chromaDB instances 
@@ -22,17 +24,22 @@ class ChromaLocal:
         '''
         # self.chroma_client = chromadb.Client()
         
-        # must be the same names as in route.py
-        collection_names = ["Exemptions_And_Introduction", "Tenancy_Agreement", "Responsibilities_Of_A_Landlord"]
+        # imported routes from route.py
+        collection_names = [route.name for route in routes]
         
         script_dir = os.path.dirname(os.path.abspath(__file__))
-
+        db_store_path = os.path.join(script_dir, "db_store")
+        
+        if os.path.exists(db_store_path):
+            shutil.rmtree(db_store_path)
+            print(f"Deleted Chroma DB store at: {db_store_path}")
+            
         self.chroma_client = chromadb.PersistentClient(path=script_dir+"/db_store/") # local persistent db
-
+                
         for name in collection_names:
             
             collection = self.chroma_client.create_collection(name=name, metadata={"hnsw:space": "cosine"})
-            embed_path = script_dir + f'/embeddings/{name}_embeddings.json'
+            embed_path = script_dir + f'/model/embeddings/{name}_embeddings.json'
 
             # read embeddings data
             with open(embed_path, 'r') as f:
@@ -49,6 +56,7 @@ class ChromaLocal:
                     ids=[str(i)]
                 )
                 i += 1
+                
 
 
 if __name__ == "__main__":
