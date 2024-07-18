@@ -1,9 +1,14 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-# from query_processor import process_query, generate_api_key, validate_lease
+from model.qa_chain.query_answer import retrieve_citations, get_ranks
+import chromadb
+import os
+
 
 app = FastAPI()
+script_dir = os.path.dirname(os.path.abspath(__file__))
+chroma_client = chromadb.PersistentClient(path=script_dir+"../../../db_store/") # local persistent db
 
 class Query(BaseModel):
     query: str
@@ -15,6 +20,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+def process_query(query):
+    citations, distances = retrieve_citations(query, chroma_client)
+    scores = get_ranks(query, citations)
+    return citations, scores, distances
 
 @app.get("/api/status")
 async def status():
@@ -28,9 +38,12 @@ async def generate_api_key_endpoint():
 @app.post("/api/userQuery")
 async def user_query(query: Query):
     try:
-        response = query.query
-        return {"response": f"Response to the query: {response}"}
+        citations, scores,distances = process_query(query.query)
+        print(f"{query.query}\n")
+        print(f"{citations, scores, distances }\n")
+        return {"response": f"Response to the query: {citations, scores, distances}"}
     except Exception as e:
+        print(e)
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/validateLease")

@@ -3,3 +3,7 @@ uvicorn
 poetry
 chromadb
 python-docx
+semantic-router
+peft
+git+https://github.com/FlagOpen/FlagEmbedding.git
+sentence-transformers
