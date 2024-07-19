@@ -65,7 +65,7 @@ def filter_citations(query, citations, distances, score_threshold=-2.5, distance
 Takes in the original user query and returns citations
 
 TODO
-    - dynamics citations returned
+    - handle searching entire rta if no collections exist
 '''
 from qa_chain.semantic_router.route import identify_collections
 
