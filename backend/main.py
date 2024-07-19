@@ -8,7 +8,7 @@ import os
 
 app = FastAPI()
 script_dir = os.path.dirname(os.path.abspath(__file__))
-chroma_client = chromadb.PersistentClient(path=script_dir+"../../../db_store/") # local persistent db
+chroma_client = chromadb.PersistentClient(path=script_dir+"/db_store/") # local persistent db
 
 class Query(BaseModel):
     query: str

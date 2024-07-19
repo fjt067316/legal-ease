@@ -32,6 +32,9 @@ def get_ranks(query, citations):
 '''
 Filter citations based on ranking of another model
 If citations is below threshold then discard
+
+lower distance better
+high (more positive) score better
 '''
 def filter_citations(query, citations, distances, score_threshold=-2.5, distance_threshold=0.4):
        # Filter based on the distance threshold
