@@ -24,11 +24,12 @@ def score_query(query, citations):
     pass
 
 if __name__ == "__main__":
+    print("I am here")
     script_dir = os.path.dirname(os.path.abspath(__file__))
     chroma_client = chromadb.PersistentClient(path=script_dir+"../../../../db_store/") # local persistent db
 
     for query in queries:
-        
+
         citations, distances = query_answer.retrieve_citations(query, chroma_client)
         scores = query_answer.get_ranks(query, citations)
         # print(citations)
@@ -36,4 +37,3 @@ if __name__ == "__main__":
         print(f"{query}\n")
         for score, citation, distance in zip(scores, citations, distances):
             print(f"{score} {distance} {citation}\n")
-    
