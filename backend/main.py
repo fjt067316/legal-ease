@@ -26,43 +26,46 @@ def process_query(query):
     scores = get_ranks(query, citations)
     return citations, scores, distances
 
-@app.get("/api/status")
-async def status():
-    return {"status": "Backend is running!"}
-
-@app.get("/api/generate-api-key")
-async def generate_api_key_endpoint():
-    api_key = "api-key-fake"  # replace with actual key generation logic
-    return {"apiKey": api_key}
-
 @app.post("/api/userQuery")
 async def user_query(query: Query):
     try:
         citations, scores,distances = process_query(query.query)
         print(f"{query.query}\n")
         print(f"{citations, scores, distances }\n")
-        return {"response": f"Response to the query: {citations, scores, distances}"}
+        return {"{query.query}": f"Response to the query: {citations}"}
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/api/validateLease")
-async def validate_lease_endpoint(file: UploadFile = File(None), leaseText: str = None):
-    try:
-        lease_text = (await file.read()).decode() if file else leaseText
-        if lease_text is None:
-            raise HTTPException(status_code=400, detail="No lease text provided")
-        details = lease_text  # replace with actual lease validation logic
-        return {"details": f"Validated lease text: {details}"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+@app.get("/api/status")
+async def status():
+    return {"status": "Backend is running!"}
 
-@app.post("/api/log")
-async def log_query(query: Query):
-    return {"response": f"thanks for logging : {query.query}"}
 
-@app.post("/api/feedback")
-async def feedback_query(query: Query):
-    return {"response": f"feedback response to : {query.query}"}
+# Not needed for demo
+# @app.get("/api/generate-api-key")
+# async def generate_api_key_endpoint():
+#     api_key = "api-key-fake"  # replace with actual key generation logic
+#     return {"apiKey": api_key}
+
+
+# @app.post("/api/validateLease")
+# async def validate_lease_endpoint(file: UploadFile = File(None), leaseText: str = None):
+#     try:
+#         lease_text = (await file.read()).decode() if file else leaseText
+#         if lease_text is None:
+#             raise HTTPException(status_code=400, detail="No lease text provided")
+#         details = lease_text  # replace with actual lease validation logic
+#         return {"details": f"Validated lease text: {details}"}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
+
+# @app.post("/api/log")
+# async def log_query(query: Query):
+#     return {"response": f"thanks for logging : {query.query}"}
+
+# @app.post("/api/feedback")
+# async def feedback_query(query: Query):
+#     return {"response": f"feedback response to : {query.query}"}
 
 

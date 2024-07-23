@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import "./App.css";
-import DocumentUpload from "./components/DocumentUpload";
+// import DocumentUpload from "./components/DocumentUpload";
 import QueryInput from "./components/QueryInput";
-import ResultDisplay from "./components/ResultDisplay";
-import GenerateApiKey from "./components/GenerateApiKey";
-import LogQuery from "./components/LogQuery";
-import Feedback from "./components/Feedback";
+// import ResultDisplay from "./components/ResultDisplay";
+// import GenerateApiKey from "./components/GenerateApiKey";
+// import LogQuery from "./components/LogQuery";
+// import Feedback from "./components/Feedback";
 import Header from "./components/Header";
 
 function App() {
@@ -23,13 +23,13 @@ function App() {
       <Header />
       <button onClick={handleStatusCheck}>Check Backend Status</button>
       <p>{apiResponse}</p>
-      <div className = "container">
-        <GenerateApiKey />
-        <DocumentUpload />
+      <div className="container">
+        {/* <GenerateApiKey /> */}
+        {/* <DocumentUpload /> */}
         <QueryInput />
-        <ResultDisplay result = ""/>
-        <LogQuery />
-        <Feedback />
+        {/* <ResultDisplay result = ""/> */}
+        {/* <LogQuery /> */}
+        {/* <Feedback /> */}
       </div>
     </div>
   );
