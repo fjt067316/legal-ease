@@ -102,7 +102,7 @@ def save_embeddings_to_json(embeddings, text_chunks, file_path):
         # Convert the numpy array to a list and then to a string to use as a JSON key
         embedding_key = json.dumps(embedding)
         embedding_dict[embedding_key] = text
-
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
     with open(file_path, 'w') as f:
         json.dump(embedding_dict, f, indent=4)
 
@@ -138,8 +138,8 @@ if __name__ == "__main__":
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    model_name = "jinaai/jina-embeddings-v2-base-en"
-    local_directory = script_dir + "/saved_models/jina-embeddings-v2-base-en"
+    model_name = "avsolatorio/GIST-small-Embedding-v0"
+    local_directory = script_dir + "/saved_models/avsolatorio/GIST-small-Embedding-v0"
 
     # Check if the model is saved locally
     if not os.path.exists(local_directory):
@@ -154,8 +154,8 @@ if __name__ == "__main__":
     model.to(device)
 
     for i, name in enumerate(collection_names):
-        output_json_path = f'../embeddings/{name}_embeddings.json'
-
+        # output_json_path = f'../embeddings/{name}_embeddings.json'
+        output_json_path = os.path.join(script_dir, f'../embeddings/{name}_embeddings.json')
         collection_mod = collections_mod[i]
         collection_orig = collections_orig[i]
         text_chunks_mod = chunk_text(collection_mod, "PENIS")
