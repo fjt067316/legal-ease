@@ -23,12 +23,14 @@ function App() {
       <Header />
       <button onClick={handleStatusCheck}>Check Backend Status</button>
       <p>{apiResponse}</p>
-      <GenerateApiKey />
-      <DocumentUpload />
-      <QueryInput />
-      <ResultDisplay />
-      <LogQuery />
-      <Feedback />
+      <div className = "container">
+        <GenerateApiKey />
+        <DocumentUpload />
+        <QueryInput />
+        <ResultDisplay result = ""/>
+        <LogQuery />
+        <Feedback />
+      </div>
     </div>
   );
 }

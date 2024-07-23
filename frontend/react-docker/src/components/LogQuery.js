@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "../App.css";
+
 
 function LogQuery() {
   const [query, setQuery] = useState("");
@@ -18,18 +20,20 @@ function LogQuery() {
   };
 
   return (
-    <div>
+    <div className="section">
       <h2>Log Query</h2>
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Enter query to log"
+        className="input"
       />
-      <button onClick={handleLogQuery}>Log Query</button>
+      <button onClick={handleLogQuery} className="button">Log Query</button>
       <p>{response}</p>
     </div>
   );
 }
+
 
 export default LogQuery;

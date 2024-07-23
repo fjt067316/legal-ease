@@ -1,21 +1,57 @@
 .App {
   text-align: center;
+  font-family: Arial, sans-serif;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 20vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.header {
+  background-color: #234ad6;
+  padding: 20px;
   color: white;
 }
 
-button {
-  margin: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
 }
+
+.section {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 50%;
+  text-align: left;
+}
+
+button {
+  background-color: #226bc0;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.button:hover {
+  background-color: #1f4790;
+}
+
+.input,
+.file-input {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+p {
+  margin-top: 10px;
+}
+

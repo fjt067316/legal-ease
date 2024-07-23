@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "../App.css";
+
 
 function Feedback() {
   const [query, setQuery] = useState("");
@@ -18,18 +20,20 @@ function Feedback() {
   };
 
   return (
-    <div>
+    <div className="section">
       <h2>Feedback</h2>
       <input
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder="Enter feedback"
+        className="input"
       />
-      <button onClick={handleFeedback}>Submit Feedback</button>
+      <button onClick={handleFeedback} className="button">Submit Feedback</button>
       <p>{response}</p>
     </div>
   );
 }
+
 
 export default Feedback;

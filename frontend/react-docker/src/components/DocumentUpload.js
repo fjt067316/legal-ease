@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../App.css";
 
 function DocumentUpload() {
   const [file, setFile] = useState(null);
@@ -22,9 +23,12 @@ function DocumentUpload() {
   };
 
   return (
-    <div>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleFileUpload}>Upload and Validate Lease</button>
+    <div className="section">
+      <h2>Upload File</h2>
+      <input type="file" onChange={handleFileChange} className="file-input" />
+      <button onClick={handleFileUpload} className="button">
+        Upload and Validate Lease
+      </button>
       <p>{validationResult}</p>
     </div>
   );

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import "../App.css";
+
 
 function GenerateApiKey() {
   const [apiKey, setApiKey] = useState("");
@@ -11,8 +13,10 @@ function GenerateApiKey() {
   };
 
   return (
-    <div>
-      <button onClick={handleGenerateApiKey}>Generate API Key</button>
+
+    <div className="section">
+      <h2>Generate API Key</h2>
+      <button onClick={handleGenerateApiKey} className="button">Generate API Key</button>
       <p>{apiKey}</p>
     </div>
   );

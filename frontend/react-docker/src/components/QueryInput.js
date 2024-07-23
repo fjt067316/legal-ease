@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../App.css";
 
 function QueryInput() {
   const [query, setQuery] = useState("");
@@ -22,9 +23,17 @@ function QueryInput() {
   };
 
   return (
-    <div>
-      <input type="text" value={query} onChange={handleInputChange} />
-      <button onClick={handleQuerySubmit}>Submit Query</button>
+    <div className="section">
+      <h2>Submit Query</h2>
+      <input
+        type="text"
+        value={query}
+        onChange={handleInputChange}
+        className="input"
+      />
+      <button onClick={handleQuerySubmit} className="button">
+        Submit Query
+      </button>
       <p>{queryResponse}</p>
     </div>
   );
