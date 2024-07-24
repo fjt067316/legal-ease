@@ -10,3 +10,4 @@ flagembedding==1.2.10
 wheel==0.43.0
 einops==0.8.0
 semantic-router==0.0.51
+flash_attn
