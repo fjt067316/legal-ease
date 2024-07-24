@@ -2,8 +2,9 @@ version: "3.8"
 
 services:
   backend:
-    build:
-      context: ./backend
+    # build:
+    #   context: ./backend
+    image: fydplegalease/legal-ease-backend:latest
     ports:
       - "8000:8000"
     networks:
