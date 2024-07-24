@@ -17,6 +17,8 @@ flagembedding = "^1.2.10"
 wheel = "^0.43.0"
 einops = "^0.8.0"
 semantic-router = "^0.0.51"
+python-dotenv = "^1.0.1"
+pysqlite3-binary = "^0.5.3"
 
 
 [build-system]

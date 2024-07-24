@@ -2,9 +2,15 @@ import json
 import os
 
 # https://stackoverflow.com/questions/76958817/streamlit-your-system-has-an-unsupported-version-of-sqlite3-chroma-requires-sq
-# __import__('pysqlite3')
-# import sys
-# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+from dotenv import load_dotenv
+load_dotenv()
+use_pysqlite3_binary = os.getenv('unsupported_sqlite')
+
+# https://stackoverflow.com/questions/76958817/streamlit-your-system-has-an-unsupported-version-of-sqlite3-chroma-requires-sq
+if use_pysqlite3_binary:
+    __import__('pysqlite3')
+    import sys
+    sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 import chromadb # this import must be after the magic stuff before
 from model.qa_chain.semantic_router.route import routes

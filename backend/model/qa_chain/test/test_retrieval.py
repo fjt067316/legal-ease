@@ -24,7 +24,6 @@ def score_query(query, citations):
     pass
 
 if __name__ == "__main__":
-    print("I am here")
     script_dir = os.path.dirname(os.path.abspath(__file__))
     chroma_client = chromadb.PersistentClient(path=script_dir+"../../../../db_store/") # local persistent db
 

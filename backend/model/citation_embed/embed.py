@@ -57,8 +57,8 @@ def get_embeddings(text_chunks, model=None):
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         script_dir = os.path.dirname(os.path.abspath(__file__))
-        model_name = "avsolatorio/GIST-small-Embedding-v0"
-        local_directory = script_dir + "/saved_models/avsolatorio/GIST-small-Embedding-v0"
+        model_name = "jinaai/jina-embeddings-v2-base-en"
+        local_directory = script_dir + "/saved_models/jinaai/jina-embeddings-v2-base-en"
 
         # Check if the model is saved locally
         if not os.path.exists(local_directory):
@@ -138,8 +138,9 @@ if __name__ == "__main__":
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    model_name = "avsolatorio/GIST-small-Embedding-v0"
-    local_directory = script_dir + "/saved_models/avsolatorio/GIST-small-Embedding-v0"
+
+    model_name = "jinaai/jina-embeddings-v2-base-en"
+    local_directory = script_dir + "/saved_models/jinaai/jina-embeddings-v2-base-en"
 
     # Check if the model is saved locally
     if not os.path.exists(local_directory):
