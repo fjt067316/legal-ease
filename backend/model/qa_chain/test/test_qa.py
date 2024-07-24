@@ -19,6 +19,7 @@ queries = [
     # "what are the contents of a lease agreement\n",
     "am I allowed a pet?",
     "can my landlord evict me for a pet",
+    "can a landlord reject me for having a cat?",
     # "can I have a girl over?",
     "can I end my lease early?"
     # "when can a landlord enter my unit?"

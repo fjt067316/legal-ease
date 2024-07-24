@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import "../App.css";
+import ResultDisplay from "./ResultDisplay";
 
 function QueryInput() {
   const [query, setQuery] = useState("");
   const [queryResponse, setQueryResponse] = useState("");
+  const [citations, setCitations] = useState([]); // State for citations
   const [isLoading, setIsLoading] = useState(false); // Loading state
 
   const handleInputChange = (event) => {
@@ -22,6 +24,7 @@ function QueryInput() {
       .then((response) => response.json())
       .then((data) => {
         setQueryResponse(data.response);
+        setCitations(data.citations);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -46,7 +49,7 @@ function QueryInput() {
       >
         {isLoading ? "processing..." : "Submit Query"}
       </button>
-      <p>{queryResponse}</p>
+      {isLoading ? <p>Loading...</p> : <ResultDisplay result={queryResponse} citations={citations} />}
     </div>
   );
 }
