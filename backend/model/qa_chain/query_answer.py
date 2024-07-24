@@ -17,11 +17,11 @@ def query_answer(query, db_client, model, tokenizer, embedding_model):
 
     citations, _ = retrieve_citations(query, db_client, embedding_model)
     citations_formatted = "\n".join(f"{i+1}. {citation}" for i, citation in enumerate(citations))
-    print(citations_formatted)
+    print(f"citations: {citations_formatted}")
 
     # Step 2: Create the prompt by combining the query and the retrieved citation info
     prompt = f"""
-You're a legal assistant here to answer a question.
+You're a logical reasoning assistant here to answer a question.
 Given a user's question and relevent citations, respond to the user's question while referencing the citations.
 If none of the citations answer the question, then say you don't know.
 Keep your answer concise and to the point. Reference citations like so (1).
@@ -38,7 +38,7 @@ Answer: """
     # Step 6: Decode the response
     answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-    return answer[len(prompt):]
+    return answer[len(prompt):], citations
 
 
 '''
@@ -69,7 +69,7 @@ If citations is below threshold then discard
 lower distance better
 high (more positive) score better
 '''
-def filter_citations(query, citations, distances, score_threshold=-2.5, distance_threshold=0.4):
+def filter_citations(query, citations, distances, score_threshold=-3, distance_threshold=0.4):
        # Filter based on the distance threshold
     filtered_citations_distances = [(citation, distance) for citation, distance in zip(citations, distances) if distance <= distance_threshold]
     
@@ -81,7 +81,6 @@ def filter_citations(query, citations, distances, score_threshold=-2.5, distance
     
     # Combine citations, distances, and scores into a single list of tuples
     combined = [(citation, distance, score) for citation, distance, score in zip(citations, distances, scores)]
-    
     # Filter based on the threshold
     filtered_combined = [(citation, distance, score) for citation, distance, score in combined if score >= score_threshold]
     
@@ -102,8 +101,9 @@ TODO
 from qa_chain.semantic_router.route import identify_collections, routes
 
 def retrieve_citations(query, db_client, embedding_model=None):
+    print("indentifying collections")
     names, scores = identify_collections(query)
-    
+    print("retrieving citaitons")
     try:
         collections = []
         for name in names:
@@ -113,7 +113,7 @@ def retrieve_citations(query, db_client, embedding_model=None):
         collections = []
         for route in routes:
             collections.append(db_client.get_collection(name=route.name))
-
+    print("query embedding")
     query_vector = get_embeddings([query], embedding_model) # expects a list of strings
     '''
     collection.query(
@@ -128,7 +128,7 @@ def retrieve_citations(query, db_client, embedding_model=None):
     all_citations = []
     all_distances = []
     all_scores = []
-    
+    print("citation filtering")
     for collection in collections:
         results = collection.query(
             query_embeddings=query_vector,

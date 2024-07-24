@@ -159,7 +159,6 @@ care_homes = Route(
     ],
 )
 routes = [exemp_and_intro_route, tenancy_agreement_route, landlord_resp_route, tenant_responsibilities, tenure_security, landlord_evict_app, coop_housing, assignment_and_subletting]
-
 path = "../../citation_embed/saved_models/"
 encoder = HuggingFaceEncoder(model_name=path+"jinaai/jina-embeddings-v2-base-en")
 rl = RouteLayer(encoder=encoder, routes=routes)
