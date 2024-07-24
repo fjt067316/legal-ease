@@ -80,12 +80,12 @@ def filter_citations(query, citations, distances, score_threshold=-3, distance_t
     scores = get_ranks(query, filtered_citations)
     
     # Combine citations, distances, and scores into a single list of tuples
-    combined = [(citation, distance, score) for citation, distance, score in zip(citations, distances, scores)]
+    filtered_combined = [(citation, distance, score) for citation, distance, score in zip(citations, distances, scores) if score >= score_threshold]
     # Filter based on the threshold
-    filtered_combined = [(citation, distance, score) for citation, distance, score in combined if score >= score_threshold]
+    # filtered_combined = [(citation, distance, score) for citation, distance, score in combined ]
     
     # Sort by score in descending order
-    # filtered_combined.sort(key=lambda x: x[2], reverse=True)
+    filtered_combined.sort(key=lambda x: x[2], reverse=True)
     
     # Unzip the sorted results
     filtered_citations, filtered_distances, scores = zip(*filtered_combined) if filtered_combined else ([], [], [])

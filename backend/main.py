@@ -44,7 +44,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # Get the Hugging Face API token
 access_token = os.getenv('HUGGINGFACE_API_TOKEN')
 
-llm_model = "microsoft/Phi-3-mini-4k-instruct"  # Replace with the desired model
+llm_model = "microsoft/Phi-3-mini-4k-instruct"
 embedding_model_name = "jinaai/jina-embeddings-v2-base-en"
 
 @app.on_event("startup")
