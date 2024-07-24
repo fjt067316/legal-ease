@@ -56,19 +56,8 @@ def get_embeddings(text_chunks, model=None):
     if not model:
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-        script_dir = os.path.dirname(os.path.abspath(__file__))
         model_name = "jinaai/jina-embeddings-v2-base-en"
-        local_directory = script_dir + "/saved_models/jinaai/jina-embeddings-v2-base-en"
-
-        # Check if the model is saved locally
-        if not os.path.exists(local_directory):
-            os.makedirs(local_directory)
-            # Download and save the model
-            model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
-            model.save(local_directory)
-        else:
-            # Load the model from local directory
-            model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
+        model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
 
         # Set maximum sequence length
         # model.max_seq_length = 2048

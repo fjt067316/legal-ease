@@ -5,55 +5,27 @@ from citation_embed.embed import get_embeddings
 '''
 Takes in the entire user query and will retrieve the citations and create the prompt for the model
 '''
-from dotenv import load_dotenv
-from transformers import AutoModelForCausalLM, AutoTokenizer
+
 import torch
-# Load environment variables from .env file
-load_dotenv()
 
-# Get the Hugging Face API token
-access_token = os.getenv('HUGGINGFACE_API_TOKEN')
-
-if not access_token:
-    raise ValueError("HUGGINGFACE_API_TOKEN not found in environment variables.")
-
-model_id = "microsoft/Phi-3-mini-4k-instruct" # mistralai/Mixtral-8x7B-v0.1"
-max_new_tokens = 150
-
-script_dir = os.path.dirname(os.path.abspath(__file__))
-local_directory = script_dir + f"/saved_models/{model_id}" # "/saved_models/Mixtral-8x7B-v0.1"
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-# Check if the model is saved locally
-if not os.path.exists(local_directory):
-    os.makedirs(local_directory)
-    # Download and save the model
-    tokenizer = AutoTokenizer.from_pretrained(model_id, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True) # , device_map = 'auto'
-    model = AutoModelForCausalLM.from_pretrained(model_id, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True)
-    model.save_pretrained(local_directory)
-    tokenizer.save(local_directory)
-else:
-    # Load the model from local directory
-    tokenizer = AutoTokenizer.from_pretrained(model_id, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True)
-    model = AutoModelForCausalLM.from_pretrained(model_id, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True)
-model.to(device)
-
-# model_name = "mistralai/Mixtral-8x7B-v0.1"
-# tokenizer = AutoTokenizer.from_pretrained(model_id, token=access_token)
-# model = AutoModelForCausalLM.from_pretrained(model_id, token=access_token)
-def query_answer(query, db_client):
+def query_answer(query, db_client, model, tokenizer, embedding_model):
     # retrieve citations
     # citations = db_client.get_citations(query)  # This is a placeholder; the actual implementation may vary
-    print("getting citations")
-    citations, _ = retrieve_citations(query, db_client)
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    max_new_tokens = 150
+
+
+    citations, _ = retrieve_citations(query, db_client, embedding_model)
     citations_formatted = "\n".join(f"{i+1}. {citation}" for i, citation in enumerate(citations))
     print(citations_formatted)
 
     # Step 2: Create the prompt by combining the query and the retrieved citation info
     prompt = f"""
-You're a legal assistant here to answer a question. Given a user's question and relevent citations, respond to the user's question while referencing the citations.
+You're a legal assistant here to answer a question.
+Given a user's question and relevent citations, respond to the user's question while referencing the citations.
 If none of the citations answer the question, then say you don't know.
 Keep your answer concise and to the point. Reference citations like so (1).
+Don't type out any other questions or irrelevent text to the users question after completing your answer.
 User Question: {query}
 Citations: {citations_formatted}
 Answer: """
@@ -127,9 +99,9 @@ Takes in the original user query and returns citations
 TODO
     - handle searching entire rta if no collections exist
 '''
-from qa_chain.semantic_router.route import identify_collections
+from qa_chain.semantic_router.route import identify_collections, routes
 
-def retrieve_citations(query, db_client):
+def retrieve_citations(query, db_client, embedding_model=None):
     names, scores = identify_collections(query)
     
     try:
@@ -137,10 +109,11 @@ def retrieve_citations(query, db_client):
         for name in names:
             collections.append(db_client.get_collection(name=name))
     except:
-        print("Collection does not exist.")
-        return []
+        print("No Collections found searching entire rta")
+        for route in routes:
+            collections.append(db_client.get_collection(name=route.name))
 
-    query_vector = get_embeddings([query]) # expects a list of strings
+    query_vector = get_embeddings([query], embedding_model) # expects a list of strings
     '''
     collection.query(
         query_embeddings=[[11.1, 12.1, 13.1],[1.1, 2.3, 3.2], ...],
