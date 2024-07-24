@@ -110,6 +110,7 @@ def retrieve_citations(query, db_client, embedding_model=None):
             collections.append(db_client.get_collection(name=name))
     except:
         print("No Collections found searching entire rta")
+        collections = []
         for route in routes:
             collections.append(db_client.get_collection(name=route.name))
 
