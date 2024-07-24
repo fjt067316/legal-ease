@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install flash_attn --no-build-isolation
 COPY . .
 
 RUN python model/citation_embed/embed.py
