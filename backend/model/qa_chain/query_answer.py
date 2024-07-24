@@ -49,8 +49,7 @@ from FlagEmbedding import FlagReranker
 
 def get_ranks(query, citations):
     model_name = 'BAAI/bge-reranker-large'
-    if not citations:
-        raise ValueError("Citations list is empty. Provide at least one citation.")
+
     # Initialize FlagReranker
     reranker = FlagReranker(model_name, use_fp16=True)
     ranks = [ [query, citation] for citation in citations ]
@@ -73,13 +72,13 @@ def filter_citations(query, citations, distances, score_threshold=-3, distance_t
        # Filter based on the distance threshold
     filtered_citations_distances = [(citation, distance) for citation, distance in zip(citations, distances) if distance <= distance_threshold]
     
+    if not filtered_citations_distances:
+        return [], [], []
+    
     # Unzip filtered results
     filtered_citations, filtered_distances = zip(*filtered_citations_distances) if filtered_citations_distances else ([], [])
     
     # Compute scores for the filtered citations
-    if not filter_citations:
-        return [], [], []
-    
     scores = get_ranks(query, filtered_citations)
     
     # Combine citations, distances, and scores into a single list of tuples
