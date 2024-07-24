@@ -32,7 +32,7 @@ async def user_query(query: Query):
         citations, scores,distances = process_query(query.query)
         print(f"{query.query}\n")
         print(f"{citations, scores, distances }\n")
-        return {"{query.query}": f"Response to the query: {citations}"}
+        return {"response": f"Response to the query: {citations}"}
     except Exception as e:
         print(e)
         raise HTTPException(status_code=500, detail=str(e))
