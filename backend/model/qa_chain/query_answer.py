@@ -77,6 +77,9 @@ def filter_citations(query, citations, distances, score_threshold=-3, distance_t
     filtered_citations, filtered_distances = zip(*filtered_citations_distances) if filtered_citations_distances else ([], [])
     
     # Compute scores for the filtered citations
+    if not filter_citations:
+        return [], [], []
+    
     scores = get_ranks(query, filtered_citations)
     
     # Combine citations, distances, and scores into a single list of tuples
