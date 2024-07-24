@@ -2,6 +2,7 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from model.qa_chain.query_answer import query_answer
+
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -46,20 +47,17 @@ access_token = os.getenv('HUGGINGFACE_API_TOKEN')
 llm_model = "microsoft/Phi-3-mini-4k-instruct"  # Replace with the desired model
 embedding_model_name = "jinaai/jina-embeddings-v2-base-en"
 
-# @app.on_event("startup")
-# async def load_model():
-#   global model, tokenizer, embedding_model, chroma_client
+@app.on_event("startup")
+async def load_model():
+    global model, tokenizer, embedding_model, chroma_client
 
-# Download and save the model
-tokenizer = AutoTokenizer.from_pretrained(llm_model, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True) # , device_map = 'auto'
-model = AutoModelForCausalLM.from_pretrained(llm_model, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True)
-embedding_model = SentenceTransformer(embedding_model_name, trust_remote_code=True, device=device)
+    tokenizer = AutoTokenizer.from_pretrained(llm_model, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True) # , device_map = 'auto'
+    model = AutoModelForCausalLM.from_pretrained(llm_model, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True)
+    embedding_model = SentenceTransformer(embedding_model_name, trust_remote_code=True, device=device)
 
-model.to(device)
-embedding_model.to(device)
-script_dir = os.path.dirname(os.path.abspath(__file__))
-# tokenizer = AutoTokenizer.from_pretrained(llm_model)
-# model = AutoModelForCausalLM.from_pretrained(llm_model).to("cuda")
+    model.to(device)
+    embedding_model.to(device)
+
 
 """
 API Routes
