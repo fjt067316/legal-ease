@@ -4,25 +4,48 @@
 }
 
 .header {
-  background-color: #234ad6;
   padding: 20px;
-  color: white;
+  margin: 75px 450px;
+  color: #226bc0;
+  border-radius: 15px;
+  outline: 2px solid #226bc0;
+  /* background-color: #226bc0; */
+  font-size: 18px;
 }
 
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  /* padding: 20px; */
+}
+.container-query {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: center;
+  
+  /* padding: 20px; */
 }
 
 .section {
-  margin: 20px;
+  margin: 10px;
   padding: 20px;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   border-radius: 10px;
-  width: 50%;
-  text-align: left;
+  outline: 2px solid #226bc0;
+  /* width: 100%; */
+  /* text-align: left; */
+}
+
+.section-results {
+  margin: 10px;
+  padding: 20px 300px;
+  /* border: 1px solid #ccc; */
+  border-radius: 10px;
+  outline: 2px solid #226bc0;
+  /* width: 100%; */
+  /* text-align: left; */
 }
 
 button {
@@ -37,6 +60,19 @@ button {
 
 .button:hover {
   background-color: #1f4790;
+}
+
+.input {
+  font-size: 16px;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #226bc0;
+  border-radius: 5px;
+}
+
+::placeholder {
+  opacity: 0.7;
+  transition: opacity 0.3s ease-in-out;
 }
 
 .input,
@@ -55,3 +91,76 @@ p {
   margin-top: 10px;
 }
 
+.word {
+  opacity: 0;
+  animation: fadeInWord 0.5s forwards;
+}
+
+@keyframes fadeInWord {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+  background-color: #226bc0;
+  color: white;
+}
+
+.title {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.link {
+  cursor: pointer;
+}
+
+.statusButton {
+  background-color: white;
+  color: #226bc0;
+  border: none;
+  cursor: pointer;
+  margin-top: 0px;
+  padding: 5px 5px;
+  border-radius: 5px;
+}
+
+.about-container {
+  text-align: center;
+  padding: 40px;
+  margin-top: 50px;
+}
+
+.team-image {
+  width: 60%;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.about-text {
+  /* width: 60%;
+  max-width: 600px; */
+  font-size: 1.2rem;
+  /* margin-top: 20px; */
+  margin: 50px 300px;
+  min-height: 40px;
+  font-weight: 500;
+  color: #333;
+}

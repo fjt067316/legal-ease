@@ -1,36 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
+import { Routes, Route } from "react-router-dom"; // No extra BrowserRouter
 import "./App.css";
-// import DocumentUpload from "./components/DocumentUpload";
 import QueryInput from "./components/QueryInput";
-// import ResultDisplay from "./components/ResultDisplay";
-// import GenerateApiKey from "./components/GenerateApiKey";
-// import LogQuery from "./components/LogQuery";
-// import Feedback from "./components/Feedback";
+import About from "./components/About"; // Ensure About component is imported
+import NavBar from "./components/NavBar";
 import Header from "./components/Header";
 
 function App() {
-  const [apiResponse, setApiResponse] = useState("");
-
-  const handleStatusCheck = () => {
-    fetch("http://localhost:8000/api/status")
-      .then((response) => response.json())
-      .then((data) => setApiResponse(data.status))
-      .catch((error) => console.error("Error:", error));
-  };
-
   return (
     <div className="App">
-      <Header />
-      <button onClick={handleStatusCheck}>Check Backend Status</button>
-      <p>{apiResponse}</p>
-      <div className="container">
-        {/* <GenerateApiKey /> */}
-        {/* <DocumentUpload /> */}
-        <QueryInput />
-        {/* <ResultDisplay result = ""/> */}
-        {/* <LogQuery /> */}
-        {/* <Feedback /> */}
-      </div>
+      
+      <NavBar />
+      {/* <Header /> */}
+      <Routes>
+        <Route path="/" element={
+           <>
+           <Header />  
+           <QueryInput />  
+         </>
+          } />
+        <Route path="/about" element={<About />} />
+      </Routes>
     </div>
   );
 }
