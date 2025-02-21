@@ -104,7 +104,7 @@ TODO
 '''
 from qa_chain.semantic_router.route import identify_collections, routes
 
-def retrieve_citations(query, db_client, embedding_model=None):
+def retrieve_citations(query, db_client, embedding_model):
     print("indentifying collections")
     names, scores = identify_collections(query)
     print("retrieving citaitons")
