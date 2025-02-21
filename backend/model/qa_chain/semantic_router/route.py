@@ -158,6 +158,79 @@ care_homes = Route(
         "",
     ],
 )
+
+# part 10
+care_homes = Route(
+    name="Mobile Home Parks",
+    utterances=[
+        "",
+    ],
+)
+
+# part 11
+care_homes = Route(
+    name="The Landlord Tenant Board",
+    utterances=[
+        "",
+    ],
+)
+
+# part 12
+care_homes = Route(
+    name="Board Proceedings",
+    utterances=[
+        "",
+    ],
+)
+
+# part 13
+care_homes = Route(
+    name="municipal vital services",
+    utterances=[
+        "",
+    ],
+)
+
+# part 14
+care_homes = Route(
+    name="maintenance standards",
+    utterances=[
+        "",
+    ],
+)
+
+# part 15
+care_homes = Route(
+    name="administration and enforcement",
+    utterances=[
+        "",
+    ],
+)
+
+# part 16
+care_homes = Route(
+    name="offences",
+    utterances=[
+        "",
+    ],
+)
+
+# part 17
+care_homes = Route(
+    name="regulations",
+    utterances=[
+        "",
+    ],
+)
+
+# part 18
+care_homes = Route(
+    name="transition",
+    utterances=[
+        "",
+    ],
+)
+
 routes = [exemp_and_intro_route, tenancy_agreement_route, landlord_resp_route, tenant_responsibilities, tenure_security, landlord_evict_app, coop_housing, assignment_and_subletting]
 path = "../../citation_embed/saved_models/"
 encoder = HuggingFaceEncoder(model_name=path+"jinaai/jina-embeddings-v2-base-en")

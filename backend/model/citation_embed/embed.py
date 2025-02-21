@@ -100,7 +100,7 @@ Main
 
 The keyword PENIS is used to denote citation sections in the rta
 
-Use rta_penis for the actual unmodified citations and rta_mod for the modified wording citations used for
+Use rta_p for the actual unmodified citations and rta_mod for the modified wording citations used for
 generating embeddings
 '''
 import os
@@ -114,7 +114,7 @@ if __name__ == "__main__":
 
     script_dir = os.path.dirname(os.path.abspath(__file__))
     embedding_text = '/rta_embed.docx'#'/rta/rta_mod.docx'
-    citation_text = '/rta_citation.docx'#'/rta/rta_penis.docx'
+    citation_text = '/rta_citation.docx'#'/rta/rta_p.docx'
     print(script_dir)
     embed_path = script_dir + embedding_text
     original_path = script_dir + citation_text
