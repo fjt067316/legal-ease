@@ -12,6 +12,8 @@ def query_answer(query, db_client, model, tokenizer, embedding_model):
     # retrieve citations
     # citations = db_client.get_citations(query)  # This is a placeholder; the actual implementation may vary
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    if torch.backends.mps.is_available():
+        device = torch.device("mps")
     max_new_tokens = 150
 
 

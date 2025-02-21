@@ -40,9 +40,10 @@ if not access_token:
     raise ValueError("HUGGINGFACE_API_TOKEN not found in environment variables.")
 
 model_id = "microsoft/Phi-3-mini-4k-instruct" # mistralai/Mixtral-8x7B-v0.1"
-max_new_tokens = 150
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+if torch.backends.mps.is_available():
+    device = torch.device("mps")
 tokenizer = AutoTokenizer.from_pretrained(model_id, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True) # , device_map = 'auto'
 model = AutoModelForCausalLM.from_pretrained(model_id, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True)
 

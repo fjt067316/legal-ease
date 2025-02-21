@@ -35,13 +35,21 @@ app.add_middleware(
 """
 ML Setup
 """
+os.environ["PYTORCH_ENABLE_MPS_FALLBACK"]="1"
+
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 from sentence_transformers import SentenceTransformer
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+if torch.backends.mps.is_available():
+    device = torch.device("mps")
 
-# Get the Hugging Face API token
+
+
+print(f"Using device {device}")
+    
+# Get the Hugging Face API token    
 access_token = os.getenv('HUGGINGFACE_API_TOKEN')
 
 llm_model = "microsoft/Phi-3-mini-4k-instruct"
@@ -50,7 +58,6 @@ embedding_model_name = "jinaai/jina-embeddings-v2-base-en"
 @app.on_event("startup")
 async def load_model():
     global model, tokenizer, embedding_model, chroma_client
-
     tokenizer = AutoTokenizer.from_pretrained(llm_model, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True) # , device_map = 'auto'
     model = AutoModelForCausalLM.from_pretrained(llm_model, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True)
     embedding_model = SentenceTransformer(embedding_model_name, trust_remote_code=True, device=device)

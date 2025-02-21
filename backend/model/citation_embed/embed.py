@@ -55,6 +55,8 @@ from sentence_transformers import SentenceTransformer
 def get_embeddings(text_chunks, model=None):
     if not model:
         device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        if torch.backends.mps.is_available():
+            device = torch.device("mps")
 
         model_name = "jinaai/jina-embeddings-v2-base-en"
         model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
@@ -126,6 +128,8 @@ if __name__ == "__main__":
     collections_orig = chunk_text(text_orig, "ALABAMA_TURKEY")
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    if torch.backends.mps.is_available():
+        device = torch.device("mps")
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
     model_name = "jinaai/jina-embeddings-v2-base-en"
