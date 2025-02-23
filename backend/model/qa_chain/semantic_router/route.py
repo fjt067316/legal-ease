@@ -133,16 +133,17 @@ assignment_and_subletting = Route(
     ],
 )
 
+# Part 7
 rent_rules = Route(
-    name="Rent Rules",
+    name="Rent_Rules",
     utterances=[
-        "",
+        "Am I allowed to be charged a security deposit?",
     ],
 )
 
 # part 8
-rent_rules = Route(
-    name="Utility Cost",
+utility_costs  = Route(
+    name="Utility_Cost",
     utterances=[
         "In what cases can a landlord shut off electicity, water, or heat?",
         "Can I get a rent decrease if I have no electricity, water, or heat utilites?",
@@ -153,85 +154,96 @@ rent_rules = Route(
 
 # part 9
 care_homes = Route(
-    name="Care Homes",
+    name="Care_Homes",
     utterances=[
-        "",
+        "The agreement shall set out what has been agreed to with respect to care services and meals and the charges for them.",
     ],
 )
 
 # part 10
-care_homes = Route(
-    name="Mobile Home Parks",
+mobile_homes = Route(
+    name="Mobile_Home_Parks",
     utterances=[
-        "",
+        "This Part applies with respect to tenancies in mobile home parks",
     ],
 )
 
 # part 11
-care_homes = Route(
-    name="The Landlord Tenant Board",
+the_ltb = Route(
+    name="The_Landlord_Tenant_Board",
     utterances=[
-        "",
+        "The Ontario Rental Housing Tribunal is continued under the name Landlord and Tenant Board",
+        "Who appoints the members of the ltb?",
+        "Are all members of the landlord tenant board public servants?",
+        "What legal authority does the board have or can do?"
     ],
 )
 
 # part 12
-care_homes = Route(
-    name="Board Proceedings",
+board_proceedings = Route(
+    name="Board_Proceedings",
     utterances=[
-        "",
+        "What does the board do with the application I made",
+        "Can the board make me give notice of court hearing to the other party?",
+        "How is a notice or document given to a tenant or the board?",
+        "Can I withdrawl my ltb application?",
+        "What happens if we agree to settle outside of court?"
     ],
 )
 
 # part 13
-care_homes = Route(
-    name="municipal vital services",
+vital_services = Route(
+    name="Municipal_Vital_Services",
     utterances=[
         "",
     ],
 )
 
 # part 14
-care_homes = Route(
-    name="maintenance standards",
+maintenance = Route(
+    name="Maintenance_Standards",
     utterances=[
-        "",
+        "What are the maintenance standards for a landlord?",
+        "monitor compliance with the prescribed maintenance standards as they apply to residential complexes"
     ],
 )
 
 # part 15
-care_homes = Route(
-    name="administration and enforcement",
+enforcement = Route(
+    name="Administration_And_Enforcement",
     utterances=[
-        "",
+        "How are ltb rulings enforced?",
     ],
 )
 
 # part 16
-care_homes = Route(
-    name="offences",
+offences = Route(
+    name="Offences",
     utterances=[
-        "",
+        "What are offences someone can comit?",
+        "Harassment, interference with reasonable enjoyment offence"
     ],
 )
 
 # part 17
-care_homes = Route(
-    name="regulations",
+regulations = Route(
+    name="Regulations",
     utterances=[
         "",
     ],
 )
 
 # part 18
-care_homes = Route(
-    name="transition",
+transition = Route(
+    name="Transition",
     utterances=[
         "",
     ],
 )
 
-routes = [exemp_and_intro_route, tenancy_agreement_route, landlord_resp_route, tenant_responsibilities, tenure_security, landlord_evict_app, coop_housing, assignment_and_subletting]
+routes = [exemp_and_intro_route, tenancy_agreement_route, landlord_resp_route, tenant_responsibilities, tenure_security, landlord_evict_app, 
+          coop_housing, assignment_and_subletting, rent_rules, utility_costs, care_homes, mobile_homes, the_ltb, board_proceedings, 
+          vital_services, maintenance, enforcement, offences, regulations] # transition
 path = "../../citation_embed/saved_models/"
 encoder = HuggingFaceEncoder(model_name=path+"jinaai/jina-embeddings-v2-base-en")
 rl = RouteLayer(encoder=encoder, routes=routes)

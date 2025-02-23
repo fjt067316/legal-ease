@@ -17,7 +17,7 @@ def query_answer(query, db_client, model, tokenizer, embedding_model):
     max_new_tokens = 150
 
 
-    citations, _ = retrieve_citations(query, db_client, embedding_model)
+    citations, _, _, _ = retrieve_citations(query, db_client, embedding_model)
     citations_formatted = "\n".join(f"{i+1}. {citation}" for i, citation in enumerate(citations))
     print(f"citations: {citations_formatted}")
 
@@ -132,6 +132,8 @@ def retrieve_citations(query, db_client, embedding_model):
     all_citations = []
     all_distances = []
     all_scores = []
+    all_ids = []
+    
     print("citation filtering")
     for collection in collections:
         results = collection.query(
@@ -139,6 +141,10 @@ def retrieve_citations(query, db_client, embedding_model):
             n_results=4,  # Number of results temporarily'
             # where_document={'$contains': "pet"}
         )
+        
+        # print(results)
+        
+        ids = results['ids'][0]
 
         citations, distances, scores = filter_citations(query, results['documents'][0], results['distances'][0])
 
@@ -146,12 +152,13 @@ def retrieve_citations(query, db_client, embedding_model):
         all_citations.extend(citations)
         all_distances.extend(distances)
         all_scores.extend(scores)
+        all_ids.extend(ids)
     
     # sort citations based on score
-    combined_all = list(zip(all_citations, all_distances, all_scores))
+    combined_all = list(zip(all_citations, all_distances, all_scores, all_ids))
     combined_all.sort(key=lambda x: x[2], reverse=True)
-    all_citations, all_distances, all_scores = zip(*combined_all) if combined_all else ([], [], [])
+    all_citations, all_distances, all_scores, all_ids = zip(*combined_all) if combined_all else ([], [], [], [])
 
     # print(results)
     # return results['documents'][0], results['distances'][0]
-    return list(all_citations), list(all_distances)
+    return list(all_citations), list(all_distances), list(all_scores), list(all_ids)

@@ -41,7 +41,7 @@ class ChromaLocal:
             print(f"Deleted Chroma DB store at: {db_store_path}")
             
         self.chroma_client = chromadb.PersistentClient(path=script_dir+"/db_store/") # local persistent db
-                
+        i = 0
         for name in collection_names:
             
             collection = self.chroma_client.create_collection(name=name, metadata={"hnsw:space": "cosine"})
@@ -51,13 +51,12 @@ class ChromaLocal:
             with open(embed_path, 'r') as f:
                 data = json.load(f)
 
-            i = 0
             # store data in ChromaDB
             for key, value in data.items():
                 vector = json.loads(key)
                 collection.add(
                     embeddings=[vector],
-                    metadatas=[{"citation": value}],
+                    # metadatas=[{"citation": value}],
                     documents=[value],
                     ids=[str(i)]
                 )
