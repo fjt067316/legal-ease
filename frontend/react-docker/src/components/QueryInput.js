@@ -16,7 +16,7 @@ const placeholderTexts = [
 function QueryInput() {
   const [query, setQuery] = useState("");
   const [queryResponse, setQueryResponse] = useState("");
-  const [citations, setCitations] = useState([]); // State for citations
+  // const [citations, setCitations] = useState([]); // State for citations
   const [isLoading, setIsLoading] = useState(false); // Loading state
   const [placeholder, setPlaceholder] = useState("");
   const [index, setIndex] = useState(0);
@@ -51,7 +51,7 @@ function QueryInput() {
   const tryAgain = () => {
     setQuery("");
     setQueryResponse("");
-    setCitations([]);
+    // setCitations([]);
   };
   const handleInputChange = (event) => {
     setQuery(event.target.value);
@@ -69,7 +69,7 @@ function QueryInput() {
       .then((response) => response.json())
       .then((data) => {
         setQueryResponse(data.response);
-        setCitations(data.citations);
+        // setCitations(data.citations);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -100,7 +100,7 @@ function QueryInput() {
       }
       { (isLoading || queryResponse != "") &&
         <div className="section-results">
-        {isLoading ? <p>Loading...</p> : <ResultDisplay result={queryResponse} citations={citations} />}
+        {isLoading ? <p>Loading...</p> : <ResultDisplay result={queryResponse} />}
         <button onClick={tryAgain} className="button" disabled={isLoading}>
           {isLoading ? "Processing..." : "Try again"}
         </button>
