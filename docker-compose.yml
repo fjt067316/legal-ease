@@ -4,7 +4,8 @@ services:
   backend:
     # build:
     #   context: ./backend
-    image: fydplegalease/legal-ease-backend:latest
+    # image: fydplegalease/legal-ease-backend:latest
+    image: lichpeko/legal-ease-backend:trialTag
     ports:
       - "8000:8000"
     networks:

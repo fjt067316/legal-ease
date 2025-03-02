@@ -39,7 +39,7 @@ export default function NavBar() {
       <div className="links">
         <span className="link" onClick={() => navigate('/')}>Home</span>
         <span className="link" onClick={() => navigate('/about')}>About</span>
-        <span className="link" onClick={() => navigate('/upload')}>Upload a Lease</span>
+        {/* <span className="link" onClick={() => navigate('/upload')}>Upload a Lease</span> */}
         <button className="statusButton" onClick={handleStatusClick} disabled={loading}>
           {loading ? "⏳" : status === "success" ? "✅" : status === "error" ? "❌" : "Check Status"}
         </button>
