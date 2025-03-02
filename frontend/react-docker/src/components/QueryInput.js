@@ -3,14 +3,11 @@ import "../App.css";
 import ResultDisplay from "./ResultDisplay";
 
 const placeholderTexts = [
-  "Can I bring a pet into my apartment?",
-  "Can my landlord increase rent?",
-  "What are my rights if I get evicted?",
-  "How do I break my lease?",
-  "What is the maximum security deposit?",
-  "Can I sublet my apartment?",
-  "What are the landlord's responsibilities?",
-  "Can I withhold rent?",
+  "am I allowed a pet?",
+  "can my landlord evict me for a pet",
+  "can a landlord reject me for having a cat?",
+  "can I end my lease early?",
+  "when can a landlord enter my unit?"
 ];
 
 function QueryInput() {
@@ -100,7 +97,7 @@ function QueryInput() {
       }
       { (isLoading || queryResponse != "") &&
         <div className="section-results">
-        {isLoading ? <p>Loading...</p> : <ResultDisplay result={queryResponse} />}
+        {isLoading ? <p>Loading...</p> : <ResultDisplay result={queryResponse} query={query} />}
         <button onClick={tryAgain} className="button" disabled={isLoading}>
           {isLoading ? "Processing..." : "Try again"}
         </button>

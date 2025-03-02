@@ -2,10 +2,10 @@ import React from "react";
 import "../App.css";
 
 
-function ResultDisplay({ result }) {
+function ResultDisplay({ result, query }) {
   return (
     <div>
-      <h2>Answer:</h2>
+      <h2>{query}:</h2>
       <p>{result}</p>
       {/* <h2>Citations:</h2>
       <ul>
