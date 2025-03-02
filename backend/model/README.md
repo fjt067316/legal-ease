@@ -10,10 +10,10 @@ requirments:
 3. poetry shell
 
 ## Generate Embeddings
-1. poetry run python3.11 citation_embed/embed.py
+1. python citation_embed/embed.py
 
 ## Start ChromaDB Server
-1. poetry run python3.11 start_chroma.py
+1. python start_chroma.py
 
 # chroma issues
 1. poetry add pysqlite3
