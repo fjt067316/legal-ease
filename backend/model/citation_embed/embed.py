@@ -112,18 +112,15 @@ from sentence_transformers import SentenceTransformer
 
 def get_embeddings(text_chunks, model=None):
     if not model:
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        if torch.backends.mps.is_available():
+            device = torch.device("mps")
         
-
-        if not model:
-            device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-            if torch.backends.mps.is_available():
-                device = torch.device("mps")
-            
-            model_name = "jinaai/jina-embeddings-v2-base-en"
-            model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
-
-            # Set maximum sequence length
-            # model.max_seq_length = 2048
+        model_name = "jinaai/jina-embeddings-v2-base-en"
+        model = SentenceTransformer(model_name, trust_remote_code=True, device=device)
+        
+        # Set maximum sequence length
+        # model.max_seq_length = 2048
 
     # Generate embeddings
     embeddings = []

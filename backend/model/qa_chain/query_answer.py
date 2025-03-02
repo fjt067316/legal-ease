@@ -47,7 +47,8 @@ Answer: """
     # answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
     # return answer[len(prompt):], citations
-    
+    # msg = "test resp"
+    # return msg, citations
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
         max_tokens=500,
@@ -57,7 +58,8 @@ Answer: """
     )
     # print(citations_formatted)
     # print(completion.choices[0].message.content)
-    return completion.choices[0].message.content, citations_formatted
+    
+    return completion.choices[0].message.content, citations
 
 
 '''
