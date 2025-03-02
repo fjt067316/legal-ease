@@ -7,6 +7,12 @@ Takes in the entire user query and will retrieve the citations and create the pr
 '''
 
 import torch
+from openai import OpenAI
+from dotenv import load_dotenv
+load_dotenv()
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+
+access_token = os.getenv('OPENAI_API_KEY')
 
 def query_answer(query, db_client, model, tokenizer, embedding_model):
     # retrieve citations
@@ -32,15 +38,26 @@ User Question: {query}
 Citations: {citations_formatted}
 Answer: """
     
-    print("tokenizing")
-    inputs = tokenizer(prompt, return_tensors="pt").to(device)
-    print("generating")
-    outputs = model.generate(**inputs, max_new_tokens=max_new_tokens, repetition_penalty=1.05)
+    # print("tokenizing")
+    # inputs = tokenizer(prompt, return_tensors="pt").to(device)
+    # print("generating")
+    # outputs = model.generate(**inputs, max_new_tokens=max_new_tokens, repetition_penalty=1.05)
 
-    # Step 6: Decode the response
-    answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    # # Step 6: Decode the response
+    # answer = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-    return answer[len(prompt):], citations
+    # return answer[len(prompt):], citations
+    
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        max_tokens=500,
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
+    )
+    # print(citations_formatted)
+    # print(completion.choices[0].message.content)
+    return completion.choices[0].message.content, citations_formatted
 
 
 '''

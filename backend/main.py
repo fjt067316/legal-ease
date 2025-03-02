@@ -58,11 +58,11 @@ embedding_model_name = "jinaai/jina-embeddings-v2-base-en"
 @app.on_event("startup")
 async def load_model():
     global model, tokenizer, embedding_model, chroma_client
-    tokenizer = AutoTokenizer.from_pretrained(llm_model, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True) # , device_map = 'auto'
-    model = AutoModelForCausalLM.from_pretrained(llm_model, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True)
+    # tokenizer = AutoTokenizer.from_pretrained(llm_model, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True) # , device_map = 'auto'
+    # model = AutoModelForCausalLM.from_pretrained(llm_model, token=access_token, trust_remote_code=True, torch_dtype=torch.float16, device_map = device, low_cpu_mem_usage=True)
     embedding_model = SentenceTransformer(embedding_model_name, trust_remote_code=True, device=device)
 
-    model.to(device)
+    # model.to(device)
     embedding_model.to(device)
 
 
@@ -72,7 +72,7 @@ API Routes
 @app.post("/api/userQuery")
 async def user_query(query: Query):
     try:
-        response, citations = query_answer(query.query, chroma_client, model, tokenizer, embedding_model)
+        response, citations = query_answer(query.query, chroma_client, None, None, embedding_model)
         print(response)
         return {"response": response, "citations" : citations}
     except Exception as e:
