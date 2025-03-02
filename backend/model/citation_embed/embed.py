@@ -12,6 +12,64 @@ import docx
 import unicodedata
 import torch
 
+import numpy as np
+from scipy.fft import fft, ifft
+
+def maintain_dimensionality_fft(embeddings, num_components=100):
+    reduced_embeddings = []
+    for embedding in embeddings:
+        # Perform FFT
+        fft_embedding = fft(embedding)
+        
+        # Truncate to keep only the first 'num_components' frequencies
+        truncated_fft = np.concatenate([fft_embedding[:num_components], np.zeros_like(fft_embedding[num_components:])])
+        
+        # Inverse FFT to get the reduced dimensional representation
+        reduced_embedding = np.real(ifft(truncated_fft))
+        
+        reduced_embeddings.append(reduced_embedding.tolist())
+    
+    return reduced_embeddings
+
+def reduce_dimensionality_using_fft(embeddings, num_components=100):
+    reduced_embeddings = []
+    for embedding in embeddings:
+        # Perform FFT
+        fft_embedding = fft(embedding)
+        
+        # Truncate to keep only the first 'num_components' frequencies
+        truncated_fft = fft_embedding[:num_components]  # Reduce size directly here
+        
+        # Inverse FFT to get the reduced dimensional representation
+        reduced_embedding = np.real(ifft(truncated_fft))  # This will reduce dimensionality
+
+        # Append the reduced embedding (now smaller than the original)
+        reduced_embeddings.append(reduced_embedding.tolist())
+    
+    return reduced_embeddings
+
+def maintain_dimensionality_threshold_fft(embeddings, amplitude_threshold=0.1, num_components=100):
+    reduced_embeddings = []
+    for embedding in embeddings:
+        # Perform FFT
+        fft_embedding = fft(embedding)
+        
+        # Calculate the magnitudes of the FFT coefficients
+        magnitudes = np.abs(fft_embedding)
+        
+        # Apply the threshold: remove components with low magnitude
+        fft_embedding[magnitudes < amplitude_threshold] = 0
+        
+        # Truncate to keep only the first 'num_components' frequencies
+        truncated_fft = np.concatenate([fft_embedding[:num_components], np.zeros_like(fft_embedding[num_components:])])
+        
+        # Inverse FFT to get the reduced dimensional representation
+        reduced_embedding = np.real(ifft(truncated_fft))
+        
+        reduced_embeddings.append(reduced_embedding.tolist())
+    
+    return reduced_embeddings
+
 def clean_text(text):
     # pattern = r'\d{4}, c\. \d+, .*?\. \d+, s\. \d+'
     # text = re.sub(pattern, '', text)
@@ -168,4 +226,9 @@ if __name__ == "__main__":
         print(f"{len(text_chunks_mod)} == {len(text_chunks_orig)}")
 
         embeddings = get_embeddings(text_chunks_mod, model=model)
+        embeddings = maintain_dimensionality_fft(embeddings, num_components=100)
+        
+        print(len(embeddings[0]))
+
         save_embeddings_to_json(embeddings, text_chunks_orig, output_json_path)
+        
