@@ -223,7 +223,7 @@ if __name__ == "__main__":
         print(f"{len(text_chunks_mod)} == {len(text_chunks_orig)}")
 
         embeddings = get_embeddings(text_chunks_mod, model=model)
-        embeddings = maintain_dimensionality_fft(embeddings, num_components=100)
+        # embeddings = maintain_dimensionality_fft(embeddings, num_components=100)
         
         print(len(embeddings[0]))
 
