@@ -67,7 +67,8 @@ def lease_answer(lease_data):
 You're a logical reasoning assistant here to answer a question.
 Given a user's lease information, identify any clauses that may be illegal, and respond in the form of a question from the tenant's perspective.
 For example, if a clause in a user's lease states that the tenant are not allowed to have pets, you should respond with "Can I have pets?", or "Can a landlord ban pets?"
-Your responses should only include questions. They should be concise and straight to the point. If there are multiple illegal clauses, add them to the end as another sentence. Do not respond in a list format or any other format. Only respond in sentences after sentences.
+Your responses should only include questions. They should be concise and straight to the point.
+Include at most one question. If there is more than one illegal clause, choose the one that is the most relevant or have the most severe monetary consequence.
 User Lease: {lease_data}
 Answer: """
 
