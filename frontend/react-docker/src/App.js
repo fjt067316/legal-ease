@@ -5,6 +5,7 @@ import QueryInput from "./components/QueryInput";
 import About from "./components/About"; // Ensure About component is imported
 import NavBar from "./components/NavBar";
 import Header from "./components/Header";
+import DocumentUpload from "./components/DocumentUpload";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
          </>
           } />
         <Route path="/about" element={<About />} />
+        <Route path="/document-upload" element={<DocumentUpload />} />
       </Routes>
     </div>
   );

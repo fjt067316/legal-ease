@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate instead of useHistory
+import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
 export default function NavBar() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState(null);
-  const navigate = useNavigate(); // Replace useHistory with useNavigate
+  const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("theme") === "dark";
   });
@@ -39,7 +39,7 @@ export default function NavBar() {
       <div className="links">
         <span className="link" onClick={() => navigate('/')}>Home</span>
         <span className="link" onClick={() => navigate('/about')}>About</span>
-        {/* <span className="link" onClick={() => navigate('/upload')}>Upload a Lease</span> */}
+        <span className="link" onClick={() => navigate('/document-upload')}>Upload PDF</span>
         <button className="statusButton" onClick={handleStatusClick} disabled={loading}>
           {loading ? "⏳" : status === "success" ? "✅" : status === "error" ? "❌" : "Check Status"}
         </button>
