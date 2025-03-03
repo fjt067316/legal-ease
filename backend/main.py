@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
-from model.qa_chain.query_answer import query_answer
+from model.qa_chain.query_answer import query_answer, lease_answer
 
 import os
 from dotenv import load_dotenv
@@ -83,7 +83,19 @@ async def user_query(query: Query):
 async def status():
     return {"status": "Backend is running!"}
 
-
+@app.post("/api/analyzeLease")
+async def analyze_lease(lease_data: dict):
+    try:
+        lease_text = lease_data.get("leaseText", "")
+        
+        lease_questions = lease_answer(lease_text)
+        print(f"potential lease questions: {lease_questions}")
+        response, citations = query_answer(lease_questions, chroma_client, None, None, embedding_model)
+        return {"response": response, "citations" : citations}
+    except Exception as e:
+        print(f"Error analyzing lease: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+    
 # Not needed for demo
 # @app.get("/api/generate-api-key")
 # async def generate_api_key_endpoint():
