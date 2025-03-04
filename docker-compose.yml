@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   backend:
+    image: fydplegalease/legal-ease-backend:latest
     build:
       context: ./backend
     ports:
