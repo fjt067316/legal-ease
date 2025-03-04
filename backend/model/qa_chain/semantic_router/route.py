@@ -79,7 +79,7 @@ tenure_security = Route(
         "landlord sold condo what rent will I pay?",
         "do I get compensation for eviction from renovation?",
         "bad faith eviction",
-        "can I be evicted for having a pet?"
+        "can I be evicted for having a pet?",
         "can I be evicted for drugs or damages?",
         "roomate ruining my reasonable enjoyment can landlord evict him?", #A landlord may give a tenant notice of termination of the tenancy if the conduct of the tenant, another occupant of the rental unit or a person permitted
     ],
