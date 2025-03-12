@@ -69,6 +69,8 @@ Given a user's lease information, identify any clauses that may be illegal, and 
 For example, if a clause in a user's lease states that the tenant are not allowed to have pets, you should respond with "Can I have pets?", or "Can a landlord ban pets?"
 Your responses should only include questions. They should be concise and straight to the point.
 Include at most one question. If there is more than one illegal clause, choose the one that is the most relevant or have the most severe monetary consequence.
+If there are no blatantly illegal clauses, or if the lease is the Ontario Residential Tenancy Agreement (Standard Form of Lease), immediately return "No illegal clauses found."
+Do not hallucinate illegal clauses if you are not sure. Only identify clauses that are obviously illegal. 
 User Lease: {lease_data}
 Answer: """
 

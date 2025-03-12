@@ -1,3 +1,4 @@
+import time
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -90,6 +91,9 @@ async def analyze_lease(lease_data: dict):
         
         lease_questions = lease_answer(lease_text)
         print(f"potential lease questions: {lease_questions}")
+        if lease_questions == "No illegal clauses found.":
+            time.sleep(10)
+            return {"response": lease_questions, "citations" : []}
         response, citations = query_answer(lease_questions, chroma_client, None, None, embedding_model)
         return {"response": response, "citations" : citations}
     except Exception as e:
